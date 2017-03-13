@@ -86,21 +86,27 @@ var create = function() {
         new EnemyShip(
             100,
             100,
-            "EnemyType1.png"
+            "EnemyType1.png", {
+                bullet: 'EnemyBulletType1.png'
+            }
         )
     );
     Nakama.players.push(
         new EnemyShip(
             200,
             100,
-            "EnemyType2.png"
+            "EnemyType2.png", {
+                bullet: 'EnemyBulletType2.png'
+            }
         )
     );
     Nakama.players.push(
         new EnemyShip(
             300,
             100,
-            "EnemyType3.png"
+            "EnemyType3.png", {
+                bullet: 'EnemyBulletType2.png'
+            }
         )
     );
 };
