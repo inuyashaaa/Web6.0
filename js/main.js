@@ -63,7 +63,8 @@ var create = function() {
                 down: Phaser.Keyboard.DOWN,
                 left: Phaser.Keyboard.LEFT,
                 right: Phaser.Keyboard.RIGHT,
-                fire: Phaser.Keyboard.SPACEBAR
+                fire: Phaser.Keyboard.SPACEBAR,
+                bullet: 'BulletType1.png'
             }
         )
     );
@@ -76,7 +77,8 @@ var create = function() {
                 down: Phaser.Keyboard.S,
                 left: Phaser.Keyboard.A,
                 right: Phaser.Keyboard.D,
-                fire: Phaser.Keyboard.F
+                fire: Phaser.Keyboard.F,
+                bullet: 'BulletType2.png'
             }
         )
     );
