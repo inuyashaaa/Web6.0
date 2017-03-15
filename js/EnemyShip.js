@@ -1,12 +1,13 @@
 class EnemyShip {
     constructor(x, y, spriteName, configs) {
-        this.sprite = Nakama.game.add.sprite(x, y, "assets", spriteName);
-        Nakama.game.physics.arcade.enable(this.sprite);
+        this.sprite = Nakama.enemyGroup.create(x, y, "assets", spriteName);
+        // Nakama.game.physics.arcade.enable(this.sprite);
         this.sprite.body.collideWorldBounds = true;
         this.configs = configs;
+        this.sprite.health = this.configs.health;
         this.sprite.body.velocity.y = 200;
         this.sprite.body.velocity.x = 200;
-        this.autofire();
+        // this.autofire();
 
     }
 
@@ -16,12 +17,15 @@ class EnemyShip {
         } else if (this.sprite.position.y >= 200) {
             this.sprite.body.velocity.y = -this.randomVelocity(100,200);
         }
+
         if (this.sprite.position.x <= 0) {
             this.sprite.body.velocity.x = this.randomVelocity(100,200);
         } else if (this.sprite.position.x >= 554) {
             this.sprite.body.velocity.x = -this.randomVelocity(100,200);
         }
         // Nakama.game.world.wrap(this.sprite, 16);
+
+        // Nakama.game.physics.arcade.overlap(bulletGroup, enemyGroup, onBulletHitEnemy);
     }
 
     autofire(){
