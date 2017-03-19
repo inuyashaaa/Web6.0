@@ -7,25 +7,8 @@ class ShipController {
         this.sprite.body.collideWorldBounds = true;
         this.configs = configs;
         this.timeSinceLastFire = 0;
-        // this.fireBullet();
+        this.bulletHoming = [];
     }
-
-    // fireBullet() {
-    //     //Tao so luong dan va hinh anh dan tuong ung
-    //     this.weapon = Nakama.game.add.weapon(50, 'assets', this.configs.bullet);
-    //
-    //     //Kill dan khi dan di ra khoi gioi han
-    //     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-    //
-    //     //Xoay chieu de dan bay len tren
-    //     this.weapon.bulletAngleOffset = 90;
-    //
-    //     //Toc do bay cua dan
-    //     this.weapon.bulletSpeed = 400;
-    //
-    //     //Chon tau va vi tri cua tau ban dan
-    //     this.weapon.trackSprite(this.sprite, 40, -20);
-    // }
 
     update() {
         //Thiet lap viec di chuyen cua tau
@@ -48,6 +31,7 @@ class ShipController {
         if (Nakama.keyboard.isDown(this.configs.fire)) {
             this.tryFire();
         }
+        this.updateBulletHoming();
     }
 
     tryFire() {
@@ -57,19 +41,42 @@ class ShipController {
         }
     }
     fire() {
-        this.createBullet(new Phaser.Point(0, -1));
-        this.createBullet(new Phaser.Point(1, -10));
-        this.createBullet(new Phaser.Point(-1, -10));
-        this.createBullet(new Phaser.Point(1, -5));
-        this.createBullet(new Phaser.Point(-1, -5));
+        // this.createBullet(new Phaser.Point(0, -1));
+        // this.createBullet(new Phaser.Point(1, -10));
+        // this.createBullet(new Phaser.Point(-1, -10));
+        // this.createBullet(new Phaser.Point(1, -5));
+        // this.createBullet(new Phaser.Point(-1, -5));
+        this.createBulletHoming(new Phaser.Point(1, -1));
+        // this.createBulletHoming(new Phaser.Point(1, -10));
+
     }
 
-    createBullet(direction){
-      new BulletController(
-          this.sprite.position,
-          direction,
-          "BulletType2.png"
-      );
+    createBullet(direction) {
+        new BulletController(
+            this.sprite.position,
+            direction,
+            "BulletType2.png"
+        );
+    }
+
+    createBulletHoming(direction) {
+        var angleRotation = 20;
+        this.bulletHoming.push(
+            new HomingBulletController(
+                this.sprite.position,
+                direction,
+                angleRotation,
+                "BulletType2.png"
+            )
+        );
+    }
+
+    updateBulletHoming() {
+        this.bulletHoming.forEach(
+            function(bullet) {
+                bullet.update();
+            }
+        );
     }
 
 }

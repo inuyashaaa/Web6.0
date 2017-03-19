@@ -54,12 +54,15 @@ var create = function() {
     Nakama.keyboard = Nakama.game.input.keyboard;
     backgroundGame = Nakama.game.add.tileSprite(0, 0, Nakama.configs.GAME_WIDTH, Nakama.configs.GAME_HIGHT, 'background');
 
+    Nakama.playerBulletHomingGroup = Nakama.game.add.physicsGroup();
     Nakama.bulletGroup = Nakama.game.add.physicsGroup();
     Nakama.playerGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyGroup = Nakama.game.add.physicsGroup();
 
 
+
     Nakama.players = [];
+    Nakama.enemies = [];
     Nakama.players.push(
         new ShipController(
             Nakama.configs.PLAYER1_POS.x,
@@ -90,7 +93,7 @@ var create = function() {
             }
         )
     );
-    Nakama.players.push(
+    Nakama.enemies.push(
         new EnemyShip(
             100,
             100,
@@ -100,43 +103,61 @@ var create = function() {
             }
         )
     );
-    Nakama.players.push(
-        new EnemyShip(
-            200,
-            100,
-            "EnemyType2.png", {
-                bullet: 'EnemyBulletType2.png',
-                health: 15
-            }
-        )
-    );
-    Nakama.players.push(
-        new EnemyShip(
-            300,
-            100,
-            "EnemyType3.png", {
-                bullet: 'EnemyBulletType2.png',
-                health: 15
-            }
-        )
-    );
+    // Nakama.enemies.push(
+    //     new EnemyShip(
+    //         200,
+    //         100,
+    //         "EnemyType2.png", {
+    //             bullet: 'EnemyBulletType2.png',
+    //             health: 15
+    //         }
+    //     )
+    // );
+    // Nakama.enemies.push(
+    //     new EnemyShip(
+    //         300,
+    //         100,
+    //         "EnemyType3.png", {
+    //             bullet: 'EnemyBulletType2.png',
+    //             health: 15
+    //         }
+    //     )
+    // );
 };
 // update game state each frame
 var update = function() {
     backgroundGame.tilePosition.y += Nakama.configs.GAME_SPEED;
-    Nakama.players.forEach(function(ship) {
-        ship.update();
-    });
+
+    Nakama.players.forEach(
+        function(ship) {
+            ship.update();
+        });
+
+    Nakama.enemies.forEach(
+        function(enemy){
+          enemy.update();
+        }
+    );
     Nakama.game.physics.arcade.overlap(
-      Nakama.bulletGroup,
-      Nakama.enemyGroup,
-      onBulletHitEnemy
+        Nakama.bulletGroup,
+        Nakama.enemyGroup,
+        onBulletHitEnemy
+    );
+    Nakama.game.physics.arcade.overlap(
+        Nakama.playerBulletHomingGroup,
+        Nakama.enemyGroup,
+        onHomingBulletHitEnemy
     );
 };
 
-var onBulletHitEnemy = function(bulletSprite, enemySprite){
-  enemySprite.damage(1);
-  bulletSprite.kill();
-}
+var onBulletHitEnemy = function(bulletSprite, enemySprite) {
+    enemySprite.damage(1);
+    bulletSprite.kill();
+};
+
+var onHomingBulletHitEnemy = function(homingBulletSprite, enemySprite) {
+    enemySprite.damage(1);
+    homingBulletSprite.kill();
+};
 // before camera render (mostly for debug)
 var render = function() {};
